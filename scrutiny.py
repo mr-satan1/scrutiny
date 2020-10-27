@@ -7,6 +7,19 @@ import json
 import magic
 import hashlib
 import os
+from datetime import date, datetime
+
+# Silly visuals
+from pyfiglet import Figlet
+banner = Figlet(font='poison')
+print(banner.renderText("Scrutiny!"))
+
+# Logging settings
+logging.basicConfig(filename="scrutiny.log", level=logging.INFO, format="%(asctime)s:%(levelname)s:%(message)s")
+
+# Import ES Libs & Config
+from elasticsearch import Elasticsearch
+es = Elasticsearch(['http://127.0.0.1:9200'])
 
 # Import Watchdog Libs
 from watchdog.observers import Observer
@@ -16,12 +29,24 @@ from watchdog.events import FileSystemEventHandler
 # Import VT lib
 from virus_total_apis import PublicApi as VirusTotalPublicApi
 
-# Call config file with DT & VT API Keys
+# Call config file with VT API Keys
 from configparser import ConfigParser
 parser = ConfigParser()
 parser.read("config.ini")
 vtkey = parser.get('vtapi', 'key')
 
+
+
+def yarascan(filename):
+    print(filename)
+
+def filetype(filename):
+	return magic.from_file(filename)
+
+def ispe(filename):
+	if re.match(r'^PE[0-9]{2}|^MS-DOS', filetype(filename)):
+		return True
+	return False
 
 def vtget(API_KEY, HASH):
     vt = VirusTotalPublicApi(API_KEY)
@@ -33,10 +58,6 @@ def vtget(API_KEY, HASH):
         }
     except:
         return {"positives": "", "total": ""}
-
-
-def filetype(filename):
-	return magic.from_file(filename)
 
 def filesize(filename):
 	return os.path.getsize(filename)
@@ -68,6 +89,7 @@ def analyze(filename):
         "filetype": filetype(filename),
         "filesize": filesize(filename),
         "hashes": gethash(filename),
+        "yara": yarascan(filename),
         "virustotal": vtget(vtkey, gethash(filename)['md5'])
     }
     # filedata = {
@@ -79,6 +101,9 @@ def analyze(filename):
 
     return filedata
 
+def sendES(jsondata):
+    print(jsondata)
+
 class CreatedEventHandler(FileSystemEventHandler):
 
     def __init__(self):
@@ -89,7 +114,7 @@ class CreatedEventHandler(FileSystemEventHandler):
         filename = event.src_path
         print(f"Created: {filename}")
         data = analyze(filename)
-        print(data)
+        logging.info(data)
     
     def on_moved(handler,event):
         filename = event.src_path
@@ -107,7 +132,8 @@ if __name__ == "__main__":
     observer = Observer()
     observer.schedule(event_handler, path, recursive=False)
     observer.start()
-    print(f'[*] - Monitoring Directory: {path}')
+    print(f'[*] Monitoring Directory: {path}')
+    print(f"[*] logging data to 'scrutiny.log'")
     try:
         while True:
             time.sleep(1)

@@ -3,3 +3,4 @@ virustotal-api
 requests
 elasticsearch
 python-magic
+yara-python

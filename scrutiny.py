@@ -20,7 +20,6 @@ from virus_total_apis import PublicApi as VirusTotalPublicApi
 from configparser import ConfigParser
 parser = ConfigParser()
 parser.read("config.ini")
-apiusername = parser.get('dtapi', 'username')
 vtkey = parser.get('vtapi', 'key')
 
 
@@ -64,19 +63,19 @@ def gethash(filename):
 	return hashinfo
 
 def analyze(filename):
-    # filedata = {
-    #     "filename": filename,
-    #     "filetype": filetype(filename),
-    #     "filesize": filesize(filename),
-    #     "hashes": gethash(filename),
-    #     "virustotal": vtget(apikey, gethash(filename)['md5'])
-    # }
     filedata = {
         "filename": filename,
         "filetype": filetype(filename),
         "filesize": filesize(filename),
-        "hashes": gethash(filename)
+        "hashes": gethash(filename),
+        "virustotal": vtget(vtkey, gethash(filename)['md5'])
     }
+    # filedata = {
+    #     "filename": filename,
+    #     "filetype": filetype(filename),
+    #     "filesize": filesize(filename),
+    #     "hashes": gethash(filename)
+    # }
 
     return filedata
 
@@ -95,14 +94,12 @@ class CreatedEventHandler(FileSystemEventHandler):
     def on_moved(handler,event):
         filename = event.src_path
         print(f"Moved File: {filename}")
-        data = analyze(filename)
-        print(data)
+
     
     def on_deleted(handler,event):
         filename = event.src_path
         print(f"Deleted: {filename}")
-        data = analyze(filename)
-        print(data)
+
 
 if __name__ == "__main__":
     path = sys.argv[1] if len(sys.argv) > 1 else '.'

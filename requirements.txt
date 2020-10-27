@@ -2,3 +2,4 @@ watchdog
 virustotal-api
 requests
 elasticsearch
+python-magic

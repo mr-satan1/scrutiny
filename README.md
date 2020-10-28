@@ -12,7 +12,7 @@ Copy your VT API Key to the config.ini file
 ```python3 scrutiny.py $DIRECTORY_TO_MONITOR```
 
 ~~~
-```❯ python3 scrutiny
+❯ python3 scrutiny
 
  @@@@@@    @@@@@@@  @@@@@@@   @@@  @@@  @@@@@@@  @@@  @@@  @@@  @@@ @@@  @@@
 @@@@@@@   @@@@@@@@  @@@@@@@@  @@@  @@@  @@@@@@@  @@@  @@@@ @@@  @@@ @@@  @@@
@@ -27,7 +27,7 @@ Copy your VT API Key to the config.ini file
 
 
 [*] Monitoring Directory: .
-[*] logging data to 'scrutiny.log'```
+[*] logging data to 'scrutiny.log'
 ~~~
 
 ### Future Features

@@ -11,6 +11,25 @@ Copy your VT API Key to the config.ini file
 ### Usage
 ```python3 scrutiny.py $DIRECTORY_TO_MONITOR```
 
+~~~
+```❯ python3 scrutiny
+
+ @@@@@@    @@@@@@@  @@@@@@@   @@@  @@@  @@@@@@@  @@@  @@@  @@@  @@@ @@@  @@@
+@@@@@@@   @@@@@@@@  @@@@@@@@  @@@  @@@  @@@@@@@  @@@  @@@@ @@@  @@@ @@@  @@@
+!@@       !@@       @@!  @@@  @@!  @@@    @@!    @@!  @@!@!@@@  @@! !@@  @@!
+!@!       !@!       !@!  @!@  !@!  @!@    !@!    !@!  !@!!@!@!  !@! @!!  !@
+!!@@!!    !@!       @!@!!@!   @!@  !@!    @!!    !!@  @!@ !!@!   !@!@!   @!@
+ !!@!!!   !!!       !!@!@!    !@!  !!!    !!!    !!!  !@!  !!!    @!!!   !!!
+     !:!  :!!       !!: :!!   !!:  !!!    !!:    !!:  !!:  !!!    !!:
+    !:!   :!:       :!:  !:!  :!:  !:!    :!:    :!:  :!:  !:!    :!:    :!:
+:::: ::    ::: :::  ::   :::  ::::: ::     ::     ::   ::   ::     ::     ::
+:: : :     :: :: :   :   : :   : :  :      :     :    ::    :      :     :::
+
+
+[*] Monitoring Directory: .
+[*] logging data to 'scrutiny.log'```
+~~~
+
 ### Future Features
 - Upload files automatically to S3 using boto3
 - Log metadata captured to ELK stack

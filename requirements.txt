@@ -4,3 +4,4 @@ requests
 elasticsearch
 python-magic
 yara-python
+pyfiglet
